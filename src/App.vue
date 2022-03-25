@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-08 18:33:58
- * @LastEditTime: 2022-03-17 18:15:22
+ * @LastEditTime: 2022-03-25 15:31:56
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /my-vue-app/src/App.vue
@@ -15,6 +15,7 @@ import CanvasTimeLine from './components/CanvasTimeLine.vue'
 
 <template>
   <HelloWorld msg="Hello Vue 3.2.3 + Vite " />
+
   <CanvasTimeLine />
 </template>
 
@@ -26,5 +27,6 @@ import CanvasTimeLine from './components/CanvasTimeLine.vue'
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  position: relative;
 }
 </style>

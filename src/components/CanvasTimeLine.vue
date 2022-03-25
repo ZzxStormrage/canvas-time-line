@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-08 18:33:58
- * @LastEditTime: 2022-03-18 11:23:16
+ * @LastEditTime: 2022-03-25 16:08:00
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /my-vue-app/src/components/HelloWorld.vue
@@ -9,17 +9,43 @@
 <script setup>
 import CanvasTimeLine from '../packages/canvas-time-line/index'
 
-onMounted(() => {
-  const CanvasTimeLineFn = new CanvasTimeLine('canvasTimeLine')
+let CanvasTimeLineFn = null
 
-  //   const canvasEl = document.getElementById('canvasTimeLine')
-  //   console.log('🚀 ~ file: CanvasTimeLine.vue ~ line 14 ~ onMounted ~ canvasEl', canvasEl)
-  //   CanvasTimeLine('#canvasTimeLine')
+onMounted(() => {
+  CanvasTimeLineFn = new CanvasTimeLine('canvasTimeLine')
 })
+
+const scrollHandel = (e) => {
+  let scrollLeft = e.target.scrollLeft
+  CanvasTimeLineFn.moveDraw(scrollLeft)
+}
 </script>
 
 <template>
   <canvas id="canvasTimeLine"></canvas>
+  <div class="canvas-wrap" @scroll="scrollHandel">
+    <div class="content"></div>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+.canvas-wrap {
+  overflow: hidden;
+  overflow-x: auto;
+  width: 1000px;
+  height: 300px;
+  position: relative;
+
+  #canvasTimeLine {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .content {
+    width: 10000px;
+    height: 20px;
+    background-color: #ccc;
+  }
+}
+</style>
