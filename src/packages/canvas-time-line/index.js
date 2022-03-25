@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-03-17 15:09:45
- * @LastEditTime: 2022-03-25 16:21:03
+ * @LastEditTime: 2022-03-25 17:02:43
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /canvas-time-line/src/packages/canvas-time-line/canvas-time-line.js
@@ -12,7 +12,7 @@ const LING_W = 1 // 段落刻度尺宽度
 const S_LING_H = 6 // 刻度尺高度
 const LING_COLOR = '#979797' // 段落线颜色
 const S_LING_COLOR = '#f0f0f0' // 刻度线颜色
-const CANVAS_COLOR = '#fff' // color 背景颜色
+const BG_COLOR = '#fff' // color 背景颜色
 const DATE_COLOR = '#404040' // color 背景颜色
 const FOND_TOP = 20 // 距离顶部距离
 const FOND_STYLE = '12px Arial' // 字体
@@ -39,7 +39,7 @@ class CanvasTimeLine {
       lineH: LING_H,
       lineW: LING_W,
       lingColor: LING_COLOR,
-      canvasColor: CANVAS_COLOR,
+      bgColor: BG_COLOR,
       dateColor: DATE_COLOR,
       sLineH: S_LING_H,
       sLingColor: S_LING_COLOR,
@@ -55,6 +55,7 @@ class CanvasTimeLine {
     // 每像素多少毫秒
     this.prePxMs = 0
     this.drawData = []
+    this.scrollLeft = this.options.scrollLeft || 0
     this.init()
 
     this.moveDraw = this.moveDraw.bind(this)
@@ -63,7 +64,7 @@ class CanvasTimeLine {
   init() {
     this.setBaseData()
 
-    let { canvasW, canvasH, canvasColor, scrollLeft, blockWidth } = this.options
+    let { canvasW, canvasH, bgColor, scrollLeft, blockWidth } = this.options
 
     this.ctx = this.canvas.getContext('2d')
     const ratio = this.getPixelRatio(this.ctx)
@@ -75,7 +76,7 @@ class CanvasTimeLine {
 
     // 然后将画布缩放，将图像放大两倍画到画布上
     this.ctx.scale(ratio, ratio)
-    this.ctx.fillStyle = canvasColor
+    this.ctx.fillStyle = bgColor
     this.ctx.fillRect(0, 0, canvasW, canvasH)
 
     const start = Math.ceil(scrollLeft / blockWidth)
@@ -107,18 +108,25 @@ class CanvasTimeLine {
     this.ctx.stroke()
   }
 
+  clear() {
+    let { bgColor, canvasH, canvasW } = this.options
+    this.ctx.clearRect(0, 0, canvasW, canvasH)
+    this.ctx.fillStyle = bgColor
+    this.ctx.fillRect(0, 0, canvasW, canvasH)
+  }
+
   moveDraw(scrollLeft = 0) {
     this.scrollLeft = scrollLeft
 
     let { blockWidth, canvasH, canvasW } = this.options
     const start = Math.ceil(scrollLeft / blockWidth)
     const end = Math.ceil(canvasW / blockWidth)
-    this.ctx.clearRect(0, 0, canvasW, canvasH)
+    this.clear()
     this.draw(start, start + end)
   }
 
   setBaseData() {
-    let { blockWidth, startTimeMs, endTimeMs, blockTimeMs, canvasH, lineH, lineW, slineH } =
+    let { blockWidth, startTimeMs, endTimeMs, blockTimeMs, canvasH, lineH, lineW, sLineH } =
       this.options
 
     this.prePxMs = blockTimeMs / blockWidth
@@ -128,7 +136,7 @@ class CanvasTimeLine {
 
     for (let i = 0; i < blockNum; i++) {
       const isBlock = i % 10 === 0
-      const lineHTemp = isBlock ? lineH : slineH
+      const lineHTemp = isBlock ? lineH : sLineH
       const beginX = blockWidth * i
 
       this.drawData.push({
