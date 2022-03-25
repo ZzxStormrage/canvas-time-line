@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-03-17 15:09:45
- * @LastEditTime: 2022-03-25 17:02:43
+ * @LastEditTime: 2022-03-25 17:06:40
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /canvas-time-line/src/packages/canvas-time-line/canvas-time-line.js
@@ -33,24 +33,27 @@ class CanvasTimeLine {
   constructor(canvasElId, option = {}) {
     this.canvas = document.getElementById(canvasElId)
 
-    this.options = Object.assign(option, {
-      canvasW: CANVAS_W,
-      canvasH: CANVAS_H,
-      lineH: LING_H,
-      lineW: LING_W,
-      lingColor: LING_COLOR,
-      bgColor: BG_COLOR,
-      dateColor: DATE_COLOR,
-      sLineH: S_LING_H,
-      sLingColor: S_LING_COLOR,
-      fondTop: FOND_TOP,
-      scrollLeft: SCROLL_LEFT,
-      blockTimeMs: BLOCK_TIME_MS,
-      blockWidth: BLOCK_WIDTH,
-      startTimeMs: START_TIME_MS,
-      endTimeMs: EDN_TIME_MS,
-      fondStyle: FOND_STYLE
-    })
+    this.options = Object.assign(
+      {
+        canvasW: CANVAS_W,
+        canvasH: CANVAS_H,
+        lineH: LING_H,
+        lineW: LING_W,
+        lingColor: LING_COLOR,
+        bgColor: BG_COLOR,
+        dateColor: DATE_COLOR,
+        sLineH: S_LING_H,
+        sLingColor: S_LING_COLOR,
+        fondTop: FOND_TOP,
+        scrollLeft: SCROLL_LEFT,
+        blockTimeMs: BLOCK_TIME_MS,
+        blockWidth: BLOCK_WIDTH,
+        startTimeMs: START_TIME_MS,
+        endTimeMs: EDN_TIME_MS,
+        fondStyle: FOND_STYLE
+      },
+      option
+    )
 
     // 每像素多少毫秒
     this.prePxMs = 0
